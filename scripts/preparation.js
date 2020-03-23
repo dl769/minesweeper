@@ -27,29 +27,53 @@ function erase(){
     widthOfBoard= 0   
 
 }
+var urldiff=0;
+function getDifficultyByURL(){
 
-function locationreload(){
-    location.reload();
-    selectedMap();
+    var curr = window.location.href;
+    urldiff = curr.slice(-1);   //last letter of url addres
 }
 
+function locationreload(){
+
+    var selection = document.getElementById('difficulty').value;
+    var url = window.location.href;   
+
+/*adding href to difficulty*/
+
+    if(urldiff != 'Y' && urldiff != 'M' && urldiff != 'D'){
+        url = window.location.href;   
+        url = url + "?" + selection;
+    }
+    else{
+        if(urldiff=='Y') url = url.substring(0, url.length - 5);
+        if(urldiff=='M') url = url.substring(0, url.length - 7);
+        if(urldiff=='D') url = url.substring(0, url.length - 5);
+
+        url = url + "?" + selection;
+    }
+    document.location.href = url;
+
+}
 function selectedMap(){
-    
-    var selection = document.getElementById('difficulty').value
 
-    if(selection=='EASY'){
+    //var selection = document.getElementById('difficulty').value
+    //var selection = c;
 
+    getDifficultyByURL()
+    if(urldiff=='Y'){
+        $("#currentDF").html("EASY");
         appendEasy();
     }
-    if(selection=='MEDIUM'){
-
+    if(urldiff=='M'){
+        $("#currentDF").html("MEDIUM");
         appendMedium();
     }
-    if(selection=='HARD'){
-
+    if(urldiff=='D'){
+        $("#currentDF").html("HARD");
         appendHard();
     }
-
+    
 }
 
 function howManyPointsRequired(){
